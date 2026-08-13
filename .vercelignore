@@ -1,0 +1,45 @@
+# Laravel & PHP files (not needed for SPA frontend)
+*.php
+bootstrap/
+app/
+database/
+routes/
+storage/
+tests/
+
+# Configuration files
+.env
+.env.*.local
+.env.*.php
+config/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build & Cache
+bootstrap/cache/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+storage/logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Other
+TODO/
+phpunit.xml
+artisan
+*.md
