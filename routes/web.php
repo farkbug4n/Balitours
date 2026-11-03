@@ -175,7 +175,7 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function () {
     Route::get('/notifications', fn () => view('user.notifications'));
 });
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin,superadmin'])->group(function () {
     Route::get('/dashboard', fn () => view('admin'));
     Route::get('/destinations', fn () => view('admin.destinations'));
     Route::get('/events', fn () => view('admin.events'));
@@ -187,6 +187,18 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/system-logs', fn () => view('admin.system-logs'));
     Route::get('/security-logs', fn () => view('admin.security-logs'));
     Route::get('/settings', fn () => view('admin.settings'));
+});
+
+Route::prefix('superadmin')->name('superadmin.')->middleware(['auth', 'role:superadmin'])->group(function () {
+    Route::get('/', fn () => redirect()->route('superadmin.dashboard'));
+    Route::get('/dashboard', fn () => view('superadmin.dashboard'))->name('dashboard');
+    Route::get('/admins', fn () => view('superadmin.admins'))->name('admins');
+    Route::get('/roles', fn () => view('superadmin.roles'))->name('roles');
+    Route::get('/users', fn () => view('superadmin.users'))->name('users');
+    Route::get('/audit-logs', fn () => view('superadmin.audit-logs'))->name('audit-logs');
+    Route::get('/system-health', fn () => view('superadmin.system-health'))->name('system-health');
+    Route::get('/backups', fn () => view('superadmin.backups'))->name('backups');
+    Route::get('/settings', fn () => view('superadmin.settings'))->name('settings');
 });
 
 Route::get('/presentation', function () {
@@ -204,5 +216,5 @@ Route::get('/security', function () {
     return view('security');
 });
 
-Route::get('/users', fn () => redirect()->route('admin.users'))->middleware(['auth', 'role:admin']);
-Route::get('/admin', fn () => redirect()->route('admin.dashboard'))->middleware(['auth', 'role:admin']);
+Route::get('/users', fn () => redirect()->route('admin.users'))->middleware(['auth', 'role:admin,superadmin']);
+Route::get('/admin', fn () => redirect()->route('admin.dashboard'))->middleware(['auth', 'role:admin,superadmin']);

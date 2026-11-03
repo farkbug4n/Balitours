@@ -72,7 +72,13 @@ class AuthController extends Controller
             $user = Auth::user();
             $user->update(['last_login_at' => now()]);
 
-            return redirect()->intended('/user/dashboard');
+            $home = match ($user->role) {
+                'superadmin' => '/superadmin/dashboard',
+                'admin' => '/admin/dashboard',
+                default => '/user/dashboard',
+            };
+
+            return redirect()->intended($home);
         }
 
         RateLimiter::hit($ipThrottleKey, $ipDecaySeconds);
